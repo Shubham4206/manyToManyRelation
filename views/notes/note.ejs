@@ -1,0 +1,34 @@
+<%- include('../includes/top.ejs') %>
+<!-- navigation below  -->
+<%- include('../includes/navigation.ejs') %>
+
+<main>
+  <div class="container">
+    <div class="media">
+      <a
+        href="/add-note/<%= note.id %>?isEditing=true"
+        role="button"
+        class="btn float-right"
+      >
+        Edit</a
+      >
+      <div class="media-body">
+        <h1 class="media-heading"><%= note.title %></h1>
+        <% if (note.Tags) { %>
+        <hr />
+        <% note.Tags.forEach(function(tag) { %>
+        <span class="tags"><%= tag.name %></span>
+        <% }); %>
+        <hr />
+        <% } %>
+        <p><%= note.description %></p>
+        <img
+          class="media-object"
+          src="<%= note.imageUrl %>"
+          alt="<%= note.title %>"
+        />
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('../includes/bottom.ejs') %>

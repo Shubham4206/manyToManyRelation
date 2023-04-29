@@ -1,0 +1,61 @@
+<%- include('../includes/top.ejs') %>
+<!-- navigation below  -->
+<%- include('../includes/navigation.ejs') %>
+
+<main>
+  <div class="container">
+    <% if (tags && tags.length) { %>
+    <form action="/filter-notes" method="post" class="filter">
+      <div class="form-group">
+        <label for="tags">Tags:</label>
+        <select class="form-control" id="tags" name="tagIds" multiple>
+          <% tags.forEach(function(tag) { %>
+          <option value="<%= tag.id %>"><%= tag.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <button class="btn">Filter</button>
+    </form>
+    <% } %> <% if (notes.length > 0) { %>
+    <h1>List of notes!</h1>
+    <% for (let note of notes) { %>
+    <div class="media">
+      <div class="media-left">
+        <img
+          class="media-object"
+          src="<%= note.imageUrl %>"
+          alt="<%= note.title %>"
+        />
+      </div>
+      <div class="media-body">
+        <h1 class="media-heading"><%= note.title %></h1>
+        <% if (note.Tags) { %>
+        <hr />
+        <% note.Tags.forEach(function(tag) { %>
+        <span class="tags"><%= tag.name %></span>
+        <% }); %>
+        <hr />
+        <% } %>
+        <p><%= note.description %></p>
+        <div class="actions">
+          <a href="/note/<%= note.id %>" role="button" class="btn"> View</a>
+          <a
+            href="/add-note/<%= note.id %>?isEditing=true"
+            role="button"
+            class="btn"
+          >
+            Edit</a
+          >
+          <form action="/delete-note" method="POST">
+            <input type="hidden" name="noteId" value="<%= note.id %>" />
+            <button class="btn">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <% } %> <% } else { %>
+    <h1>No data available!</h1>
+    <% } %>
+  </div>
+</main>
+<%- include('../includes/bottom.ejs') %>
